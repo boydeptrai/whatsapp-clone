@@ -20,6 +20,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import * as EmailValidator from "email-validator";
 import { addDoc, collection, query, where } from "firebase/firestore";
 import { Conversation } from "../types";
+import ConversationSelect from "./conversationSelect";
 
 const StyledContainer = styled.div`
   height: 100vh;
@@ -156,6 +157,13 @@ const SideBar = () => {
       </StyledSidebarButton>
 
       {/* list conversation  */}
+      {conversationsSnapshot?.docs.map((conversation) => (
+        <ConversationSelect
+          key={conversation.id}
+          id={conversation.id}
+          conversationUsers={(conversation.data() as Conversation).users}
+        />
+      ))}
       <Dialog
         open={isOpenNewConversationDialog}
         onClose={closeNewConversationDialog}
